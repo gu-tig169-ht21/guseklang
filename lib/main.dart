@@ -1,9 +1,19 @@
-// ignore_for_file: prefer_const_constructors, avoid_types_as_parameter_names, use_key_in_widget_constructors
+// ignore_for_file: prefer_const_constructors, avoid_types_as_parameter_names, use_key_in_widget_constructors, unused_import, unused_element
 
 import 'package:flutter/material.dart';
+import './second_view.dart';
+import 'package:provider/provider.dart';
+import './model.dart';
+import './main_list.dart';
 
 void main() {
-  runApp(const MyApp());
+  var state = MyState();
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => state,
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -12,6 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: MainView(),
     );
   }
@@ -26,82 +37,27 @@ class MainView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-          child: Text('TIG169 TODO'),
-        ),
+        title: Text('TIG169 TODO'),
+        centerTitle: true,
+        actions: [
+          PopupMenuButton<int>(
+              onSelected: (value) {
+                Provider.of<MyState>(context, listen: false).setFilterBy(value);
+              },
+              itemBuilder: (context) => [
+                    PopupMenuItem(child: Text('All'), value: 0),
+                    PopupMenuItem(child: Text('Done'), value: 1),
+                    PopupMenuItem(child: Text('Not done'), value: 2),
+                  ]),
+        ],
       ),
-      body: _list(),
+      body: MainList(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => SecondView()));
+              context, MaterialPageRoute(builder: (context) => second_view()));
         },
         child: Icon(Icons.add),
-      ),
-    );
-  }
-
-  Widget _list() {
-    var list = [
-      'Write a book',
-      'Do homework',
-      'Tidy Room',
-      'Watch TV',
-      'Nap',
-      'Shop groceries',
-      'Have fun',
-      'Meditate',
-    ];
-
-    return ListView.builder(
-      itemCount: list.length,
-      itemBuilder: (BuildContext context, int index) {
-        return _checkBoxRow(list[index], index);
-      },
-    );
-  }
-
-  Widget _checkBoxRow(item, index) {
-    return Row(
-      children: [
-        Checkbox(
-          checkColor: Colors.white,
-          value: false,
-          onChanged: (bool) {},
-        ),
-        Text(
-          item,
-          style: TextStyle(fontSize: 15),
-        ),
-        Spacer(),
-        IconButton(
-          onPressed: () {},
-          icon: Icon(Icons.delete_forever),
-        )
-      ],
-    );
-  }
-}
-
-class SecondView extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('TIG169 TODO'),
-        centerTitle: true,
-      ),
-      body: Column(
-        children: [
-          Container(
-            margin: EdgeInsets.only(right: 15, left: 15),
-            child: TextField(
-              decoration:
-                  InputDecoration(hintText: 'What are you going to do?'),
-            ),
-          ),
-          IconButton(onPressed: () {}, icon: Icon(Icons.add)),
-        ],
       ),
     );
   }
