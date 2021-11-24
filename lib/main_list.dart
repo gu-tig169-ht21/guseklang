@@ -16,10 +16,12 @@ class MainList extends StatelessWidget {
 
   List<Todo> _filterList(list, filterBy) {
     if (filterBy == 0) return list;
-    if (filterBy == 1)
+    if (filterBy == 1) {
       return list.where((item) => item.isChecked == true).toList();
-    if (filterBy == 2)
+    }
+    if (filterBy == 2) {
       return list.where((item) => item.isChecked == false).toList();
+    }
     return list;
   }
 
@@ -42,7 +44,11 @@ class MainList extends StatelessWidget {
                 Provider.of<MyState>(context, listen: false)
                     .whenChanged(text, value);
               }),
-          title: Text(text.message, style: TextStyle(fontSize: 20)),
+          title: Text(text.message,
+              style: TextStyle(
+                fontSize: 20,
+                decoration: text.isChecked ? TextDecoration.lineThrough : null,
+              )),
           trailing: IconButton(
             onPressed: () {
               Provider.of<MyState>(context, listen: false).removeTodo(text);

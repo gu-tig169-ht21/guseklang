@@ -8,6 +8,8 @@ import './main_list.dart';
 
 void main() {
   var state = MyState();
+  state.getList();
+
   runApp(
     ChangeNotifierProvider(
       create: (context) => state,
