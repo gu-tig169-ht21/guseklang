@@ -1,9 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="se.gu.my_first_app">
-   <application
+    <application
         android:label="my_first_app"
         android:icon="@mipmap/ic_launcher">
-        <activity
+          <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
@@ -39,3 +39,4 @@
             android:value="2" />
     </application>
 </manifest>
+    
