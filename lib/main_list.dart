@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors_in_immutables, avoid_types_as_parameter_names
+// ignore_for_file: prefer_const_constructors_in_immutables, avoid_types_as_parameter_names, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import './model.dart';
@@ -36,20 +36,20 @@ class MainList extends StatelessWidget {
   Widget _item(text, context) {
     return Padding(
       padding: const EdgeInsets.all(5.0),
-      child: ListTile(
-          leading: Checkbox(
-              checkColor: Colors.white,
-              value: text.isChecked,
-              onChanged: (bool? value) {
-                Provider.of<MyState>(context, listen: false)
-                    .whenChanged(text, value);
-              }),
+      child: CheckboxListTile(
+          controlAffinity: ListTileControlAffinity.leading,
+          checkColor: Colors.white,
+          value: text.isChecked,
+          onChanged: (bool? value) {
+            Provider.of<MyState>(context, listen: false)
+                .whenChanged(text, value);
+          },
           title: Text(text.message,
               style: TextStyle(
                 fontSize: 20,
                 decoration: text.isChecked ? TextDecoration.lineThrough : null,
               )),
-          trailing: IconButton(
+          secondary: IconButton(
             onPressed: () {
               Provider.of<MyState>(context, listen: false).removeTodo(text);
             },
